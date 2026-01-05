@@ -30,13 +30,16 @@ class Herbivore(Animal):
 
 
 class Carnivore(Animal):
-    @staticmethod
-    def bite(animal: Animal) -> None:
+    DAMAGE = 50
+
+    def bite(self, animal: Animal) -> None:
         if animal not in Animal.alive:
             return
+        if not isinstance(animal, Herbivore):
+            return
+        if animal.hidden:
+            return
 
-        if isinstance(animal, Herbivore) and not animal.hidden:
-            animal.health -= 50
-
+        animal.health -= self.DAMAGE
         if animal.health <= 0:
             animal.die()
